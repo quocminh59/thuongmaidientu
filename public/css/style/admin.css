@@ -1,0 +1,54 @@
+.background {
+    position: fixed;
+}
+
+.main-form {
+    width: 33rem;
+    height: 27rem;
+    /* background: white; */
+    position: absolute;
+    top: 6rem;
+    border-radius: 5px;
+}
+
+.wrap-login {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.header img {
+    width: 5rem;
+    height: auto;
+    background: white;
+    border-radius: 50%;
+    margin: auto;
+    display: block;
+}
+
+p {
+    color: white;
+    text-align: center;
+    margin-top: 0.5rem;
+    font-weight: bold;
+    font-size: 1.4rem;
+}
+
+label {
+    color: white;
+}
+
+.wrap-input input {
+    border-radius: 4rem;
+    width: 23rem;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
+input.btn.btn-success {
+    margin-top: 1rem;
+}

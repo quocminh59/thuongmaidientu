@@ -1,0 +1,99 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+html,body {
+    width: 100%;
+    height: 100%;
+    font-size: 62.5%;
+    box-sizing: border-box;
+    font-family: 'Titillium Web', sans-serif;
+}
+
+.content {
+    width: 100%;
+    height: 400rem;
+    background-color:#E9ECEF;
+    padding-left: 10rem;
+}
+
+.breadcrumb {
+    font-size: 1.8rem;
+    padding-top: 2rem!important;
+}
+
+.wrap-main {
+    width: 93%;
+    border-radius: 5px;
+}
+
+
+.thaotac {width: 93%;display: flex;justify-content: flex-end;}
+
+.thaotac a {
+    height: 4rem;
+    font-size: 2rem;
+    margin-left: 1rem;
+    border-radius: 3px;
+}
+
+.wrap-product-item {width: 100%;background: white;margin-top: 2rem;display: flex;align-items: center;}
+
+.wrap-product-item img {width:20rem;height:20rem;}
+
+.wrap-product-ttin {}
+
+.wrap-product-ttin a {
+    font-size: 2rem;
+    display: block;
+    width: 75%;
+}
+
+.wrap-product-ttin span {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    display: block;
+}
+
+.wrap-product-ttac {
+    display: flex;
+    align-items: center;
+    width: 40%;
+    justify-content: center;
+}
+
+.wrap-product-ttac span {
+    font-size: 2rem;
+    color: red;
+    font-weight: bold;
+    padding-right: 1rem;
+}
+
+.wrap-product-ttac i {
+    font-size: 1.8rem;
+    color: red;
+    font-weight: bold;
+    padding-left: 1rem;
+}
+
+.total-money {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+    align-items: center;
+    font-size: 2rem;
+}
+
+.total-money p {
+    font-size: 2rem;
+    margin-right: 1rem;
+}
+
+.total-money span {
+    font-size: 2.5rem;
+    color: red;
+    font-weight: bolder;
+    margin-left: 1rem;
+}
