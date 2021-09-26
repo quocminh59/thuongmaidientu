@@ -60,6 +60,10 @@ class Product extends Model
     }
 
     // processing function
+    public function showAllProducts() {
+        return Product::all();
+    }
+
     public function pivotCategoryProduct(ProductRequest $request, $product_id) {
         $product = Product::find($product_id);
         $product_categories = $product->categories->toArray();

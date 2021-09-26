@@ -16,17 +16,18 @@
 </head>
 
 <body>
-    <div class="app">
+    <div id="product">
         @include('components.header')
         
         @include('components.menu')
-       
+        
         <div class="content">
             @yield('content')
         </div>
 
         @include('components.footer')
     </div>
+
 </body>
 <script src="{{ asset('js\app.js') }}"></script>
 <script src="{{ asset('js\main.js') }}"></script>

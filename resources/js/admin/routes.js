@@ -84,7 +84,7 @@ const routes = [
 ];
 
 const router = new VueRouter({
-    base: '/qmcomputer/public/administrator',
+    base: '/administrator',
     mode: 'history',
     routes: routes,
 });

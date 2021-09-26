@@ -68,48 +68,33 @@
                 </div>
             </div>   
         @endguest
-        
-        <a class="giohang function">
-            <i class="fal fa-shopping-cart cd" id="btn-cart"></i>
-            <span class="ct">Giỏ hàng</span>
-            @if (Session::has('Cart'))
-            <div class="panal-cart hidden">
-                <div class="cart-pd">       
-                    @php
-                        $list = Session::get('Cart');
-                        $totalQuantity = 0;
-                    @endphp
-                    @foreach ($list->products as $item)
-                        <div class="card-pd-item">
-                            <img src="{{ asset($item['productInfo']->feature_image) }}" alt="">
-                            <div>
-                                <p class="cart-pd-name">{{ $item['productInfo']->name }}</p>
-                                <p class="cart-pd-number">Số lượng: {{ $item['quantity'] }}</p>
-                                <strong>{{ number_format($item['price'], 0, ',', '.') }} đ</strong>
-                            </div>
-                        </div>
-                        @php
-                            $totalQuantity += $item['quantity'];
-                        @endphp
-                    @endforeach 
-                </div>
-                <div class="cart-footer">
-                    <div class="totalprice">
-                        <p>Tổng tiền ({{  $totalQuantity }} sản phẩm)</p>
-                        <strong>{{ number_format($list->totalPrice, 0, ',', '.') }} đ</strong>
-                    </div>
-                    <button>Xem giỏ hàng</button>
-                </div>
-            </div>
-            <div class="number-cart">0</div>
-            @else
-            <div class="panal-cart hidden">
-                <h1>Giỏ hàng trống</h1>
-            </div>
-            @endif
-        </a>
+        @if (Session::has('Cart'))
+            @php
+                $cart = Session::get('Cart');
+                $dt = [
+                    'products' => $cart->products,
+                    'totalPrice' => $cart->totalPrice,
+                    'totalQuantity' => $cart->totalQuantity,
+                    'productList' => $data['productList']
+                ];
+                $Data = json_encode($dt, true);
+            @endphp
+            <panel-cart :data="{{ $Data }}" ref="panelcart"></panel-cart>
+        @else
+            @php
+                $dt = [
+                    'products' => null,
+                    'totalPrice' => null,
+                    'totalQuantity' => 0,
+                    'productList' => $data['productList']
+                ];
+                $Data = json_encode($dt, true);
+            @endphp
+            <panel-cart :data="{{ $Data }}" ref="panelcart"></panel-cart>
+        @endif
     </div>
-    {{--  <div id="product">
-        <Cart></Cart>
-    </div>  --}}
 </div>
+
+
+
+

@@ -14,7 +14,7 @@
         </ol>
     </nav>
 </div>
-
+{{--  {{  dd($productImage ) }}  --}}
 <div class="wrap-main">
     <div class="main-header">
         <h1>{{ $product[0]['name'] }}</h1>
@@ -25,11 +25,9 @@
                 <img src="{{ asset($product[0]['feature_image']) }}" alt="">
             </div>
             <div class="image-sub">
-                <img src="https://hanoicomputercdn.com/media/product/58206_laptop_msi_gaming_gf63_10sc_014vn_den_9.jpg" alt="">
-                <img src="https://hanoicomputercdn.com/media/product/58206_laptop_msi_gaming_gf63_10sc_014vn_den_9.jpg" alt="">
-                <img src="https://hanoicomputercdn.com/media/product/58206_laptop_msi_gaming_gf63_10sc_014vn_den_9.jpg" alt="">
-                <img src="https://hanoicomputercdn.com/media/product/58206_laptop_msi_gaming_gf63_10sc_014vn_den_9.jpg" alt="">
-                <img src="https://hanoicomputercdn.com/media/product/58206_laptop_msi_gaming_gf63_10sc_014vn_den_9.jpg" alt="">
+                @foreach ($productImage as $itemImage)
+                    <img src="{{ asset($itemImage['image_path']) }}" alt="">
+                @endforeach
             </div>
         </div>
 

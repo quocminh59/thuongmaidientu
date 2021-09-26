@@ -60,6 +60,6 @@ class LoginController extends Controller
     }
 
     public function redirectTo() {
-        return '/admin';
+        return $this->redirectTo;
     }
 }

@@ -14,18 +14,18 @@ html,body {
     font-family: 'Titillium Web', sans-serif;
 }
 
-.app {
+#product {
     position: relative;
     width: 100%;
+    background: #E9ECEF;
 }
 
 .content {
     width: 100%;
+    margin-bottom: 5rem;
 }
 
 .wrap-home {
-    background: #E9ECEF;
-    height: 235rem;
 }
 
 .display {
@@ -66,8 +66,8 @@ span.phone {color: #64B5F6!important;font-weight: bold;}
 
 .wrap-menu {
     width: 100%;
-    height: 9rem;
-    /* background: #9f6e6e; */
+    height: 10rem;
+    background: white;
     padding: 2rem 10rem;
     display: flex;
 }
@@ -97,12 +97,12 @@ span.phone {color: #64B5F6!important;font-weight: bold;}
 
 .other {
     display: flex;
-    margin: 1.8rem 0rem;
+    margin: 1rem 0rem;
 }
 
 a.function {
     width: 8rem;
-    height: 4rem;
+    height: 5rem;
     position: relative;
     display: flex;
     justify-content: center;
@@ -375,7 +375,6 @@ a.btn.btn-link {
 /* Carosel  ---------------------------------------------------------------------------------------------------------------*/
 .advertisement {
     position: relative;
-    margin-top: 2rem;
 }
 
 .flickity-page-dots {
@@ -701,7 +700,6 @@ a.btn.btn-link {
 .wrap-products {
     position: relative;
     width: 84%;
-    height: 1000px;
     left: 10.7rem;
 }
 
@@ -871,8 +869,9 @@ span.product-name a {
     width: 100%;
     height: 8rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     border-bottom: 1px dashed #80808085;
+    padding-left: 4rem;
 }
 
 .service {
@@ -880,7 +879,7 @@ span.product-name a {
     height: 6rem;
     display: flex;
     margin-top: 2rem;
-    margin-left: 6rem;
+    /* margin-left: 6rem; */
 }
 
 .service i {
@@ -908,8 +907,9 @@ span.product-name a {
     width: 100%;
     height: 20rem;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
+    padding-left: 4rem;
 }
 
 .about {
@@ -917,7 +917,7 @@ span.product-name a {
     width: 32rem;
     flex-wrap: wrap;
     height: 15rem;
-    margin-left: 6rem;
+    /* margin-left: 6rem; */
 }
 
 .about h2 {
@@ -935,6 +935,7 @@ span.product-name a {
     height: 23rem;
     background: #E9EDF2;
     padding: 2rem 6rem;
+    border-top: 1px dashed #80808085;
 }
 
 .area-bottom p {
@@ -1017,7 +1018,6 @@ input[type=number]::-webkit-outer-spin-button {
     position: absolute;
     font-size: 1rem;
     right: 1.9rem;
-    top: -6px;
     background: red;
     width: 14px;
     height: 14px;
@@ -1042,78 +1042,3 @@ input[type=number]::-webkit-outer-spin-button {
     box-shadow: 2px 0px 4px  -1px black;
 }
 
-.cart-pd {width: 38rem;height: 20rem;overflow-y: scroll;}
-
-.card-pd-item {
-    width: 100%;
-    display: flex;
-}
-
-.card-pd-item span {
-    width: 32rem;
-}
-
-.card-pd-item img {
-    width: 20%;
-    height: 20%;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-right: 1rem;
-}
-
-
-
-p.cart-pd-name {
-    font-size: 1.4rem;
-    height: 4rem;
-    overflow: hidden;
-}
-
-p.cart-pd-number {
-    font-size: 1.3rem;
-    height: 1rem;
-}
-
-.card-pd-item strong {
-    font-size: 1.5rem;
-    color: black;
-}
-
-.cart-footer {
-    width: 95%;
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    margin: auto;
-    flex-wrap: wrap;
-}
-
-.totalprice {
-    width: 100%;
-    display: flex;
-    color: black;
-    justify-content: space-between;
-    border-top: 1px solid #ddd;
-    border-top-style: dashed;
-    padding-top: 1rem;
-}
-
-.totalprice p {
-    font-size: 1.4rem;
-}
-
-.totalprice strong {
-    font-size: 1.5rem;
-}
-
-.panal-cart button {
-    width: 100%;
-    height: 3rem;
-    margin-bottom: 1rem;
-    background: #2f2fc7;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.5rem;
-    color: white;
-    cursor: pointer;
-}

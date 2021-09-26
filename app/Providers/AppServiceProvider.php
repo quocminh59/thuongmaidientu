@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use App\Models\Home;
+use App\Models\Product;
 use View;
+use Session;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         $home = new Home();
+        $products = new Product();
         $icons = [
             '<i class="fal fa-laptop"></i>',
             '<i class="fal fa-computer-speaker"></i>',
@@ -42,6 +45,7 @@ class AppServiceProvider extends ServiceProvider
             "parentCategories" => $home->getCategories(),
             "icons" => $icons,
             "subCategories" => $home->getSubCategories(),
+            "productList" => $products->showAllProducts() 
         ]);
     }
 }

@@ -1,2 +1,2 @@
-const baseurl = 'http://localhost/qmcomputer/public';
+const baseurl = 'http://qmcomputer.com';
  export default baseurl;

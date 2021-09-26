@@ -1,4 +1,4 @@
-<div id="product">
+
     <div class="wrap-products">
         <div id="product-main">
             <div class="scaffold">
@@ -45,7 +45,7 @@
                                 <span>Còn hàng</span>
                             </div>
                             <span class="product-cart">
-                                <a @click="addCart()"><i class="fal fa-shopping-cart"></i></a>
+                                <a @click="addCart({{ $products[12][$i]['id'] }})"><i class="fal fa-shopping-cart"></i></a>
                             </span>     
                         </div>
                     </div>
@@ -55,4 +55,3 @@
             {{--  AddCart({{ $products[12][$i]['id'] }})  --}}
         </div>
     </div>
-</div>
