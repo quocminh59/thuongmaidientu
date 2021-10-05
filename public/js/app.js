@@ -4654,6 +4654,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Payment_payment_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Payment/payment.vue */ "./resources/js/frontend/Cart/Payment/payment.vue");
+/* harmony import */ var _admin_baseurl__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../admin/baseurl */ "./resources/js/admin/baseurl.js");
 //
 //
 //
@@ -4752,6 +4753,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['data'],
@@ -4774,16 +4787,17 @@ __webpack_require__.r(__webpack_exports__);
         ward: 'Chọn phường/xã'
       },
       districtStatus: true,
-      wardStatus: true
+      wardStatus: true,
+      dataRequest: {},
+      dataPass: null,
+      errors: {}
     };
   },
 
   mounted() {
-    axios.get('https://provinces.open-api.vn/api', {
-      withCredentials: true
-    }).then(response => {
-      console.log(response.data);
-    });
+    if (this.$session.get('Info')) {
+      this.dataRequest = this.$session.get('Info');
+    }
   },
 
   methods: {
@@ -4792,6 +4806,21 @@ __webpack_require__.r(__webpack_exports__);
     },
     next: function () {
       this.type = 'payment';
+    },
+    getNameAddress: function (id, type) {
+      if (type == 'province') {
+        this.dataApi.province.forEach(item => {
+          if (item.ProvinceID == id) this.dataRequest.province = item.ProvinceName;
+        });
+      } else if (type == 'district') {
+        this.dataApi.district.forEach(item => {
+          if (item.DistrictID == id) this.dataRequest.district = item.DistrictName;
+        });
+      } else {
+        this.dataApi.ward.forEach(item => {
+          if (item.WardCode == id) this.dataRequest.ward = item.WardName;
+        });
+      }
     },
     getApiAddress: function (api, type) {
       axios.get(`${api}`, {
@@ -4803,14 +4832,31 @@ __webpack_require__.r(__webpack_exports__);
           this.dataApi.province = response.data.data;
           this.dataApi.district = null;
           this.districtStatus = false;
+          this.getNameAddress(this.dataRes.province, 'province');
         } else if (type == 'district') {
           this.dataApi.district = response.data.data;
           this.dataApi.ward = null;
           this.wardStatus = false;
+          this.getNameAddress(this.dataRes.district, 'district');
         } else {
           this.dataApi.ward = response.data.data;
+          this.getNameAddress(this.dataRes.ward, 'ward');
         }
       });
+    },
+    fetchData: function () {
+      axios.post(`${_admin_baseurl__WEBPACK_IMPORTED_MODULE_1__["default"]}/payment/validate-info`, this.dataRequest).then(() => {
+        this.dataPass = this.dataRequest;
+        this.$session.start();
+        this.$session.set('Info', this.dataRequest);
+      }).then(() => {
+        this.next();
+      }).catch(error => {
+        this.errors = error.response.data.errors;
+      });
+    },
+    BackToCheckout: function (value) {
+      this.type = value;
     }
   }
 });
@@ -4936,12 +4982,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['data'],
+  props: ['cart', 'data'],
 
   data() {
     return {
       show: false,
-      cart: this.data,
+      cart: this.cart,
       baseURL: _admin_baseurl__WEBPACK_IMPORTED_MODULE_0__["default"]
     };
   },
@@ -4953,6 +4999,12 @@ __webpack_require__.r(__webpack_exports__);
         currency: 'VND'
       }).format(value);
       return value;
+    },
+    payment: function () {
+      location.href = '/payment';
+    },
+    back: function () {
+      this.$emit('back', 'checkout');
     }
   }
 });
@@ -13825,7 +13877,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\nh1[data-v-52fcaf08] {\r\n    font-size: 2rem;\r\n    margin-bottom: 2rem;\n}\n.checkout[data-v-52fcaf08] {\r\n    width: 80rem;\r\n    border: 1px solid white;\r\n    margin: auto;\r\n    margin-top: 2rem;\r\n    background: white;\r\n    padding: 1%;\r\n    font-family: 'Roboto',sans-serif;\r\n    border-radius: 4px;\n}\nlabel[data-v-52fcaf08] {\r\n    font-size: 1.6rem;\r\n    font-weight: bold;\n}\ninput.ck-form[data-v-52fcaf08] {\r\n    width: 100%;\r\n    height: 2.8rem;\r\n    border-radius: 4px;\r\n    border: 1px solid rgb(228, 229, 240);\r\n    outline: none;\r\n    font-size: 1.4rem;\r\n    padding: 2px;\n}\n.section[data-v-52fcaf08] {\r\n    display: flex;\r\n    width: 100%;\r\n    justify-content: space-around;\r\n    margin-top: 1rem;\n}\n.section-part input[data-v-52fcaf08] {\r\n    width: 100%;\r\n    height: 2.8rem;\r\n    border-radius: 4px;\r\n    border: 1px solid rgb(228, 229, 240);\r\n    outline: none;\r\n    font-size: 1.4rem;\r\n    padding: 2px;\n}\n.section-part[data-v-52fcaf08] {\r\n    width: 80%;\n}\n.first[data-v-52fcaf08] {margin-right: 5%;\n}\n.last[data-v-52fcaf08] {\r\n    margin-top: 6rem;\r\n    border-top: 1px dashed rgb(228, 229, 240);\r\n    padding-top: 5rem;\n}\n.manipulation[data-v-52fcaf08] {width: 100%;display: flex;justify-content: flex-end;margin-top: 3rem;\n}\n.manipulation .btn[data-v-52fcaf08] {\r\n    width: 15%;\r\n    height: 4rem;\r\n    font-size: 1.5rem;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    border-radius: 4px;\n}\n.btn.btn-next[data-v-52fcaf08] {\r\n    background: #1435C3;\r\n    color: white;\n}\n.btn.btn-out[data-v-52fcaf08] {\r\n    margin-left: 2rem;\r\n    background: rgb(228, 229, 240);\n}\nselect.form-select[data-v-52fcaf08] {\r\n    width: 100%;\r\n    height: 2.8rem;\r\n    font-size: 1.3rem;\r\n    border-radius: 4px;\r\n    border: 1px solid rgb(228, 229, 240);\n}", ""]);
+exports.push([module.i, "\nh1[data-v-52fcaf08] {\r\n    font-size: 2rem;\r\n    margin-bottom: 2rem;\n}\n.checkout[data-v-52fcaf08] {\r\n    width: 80rem;\r\n    border: 1px solid white;\r\n    margin: auto;\r\n    margin-top: 2rem;\r\n    background: white;\r\n    padding: 1%;\r\n    font-family: 'Roboto',sans-serif;\r\n    border-radius: 4px;\n}\nlabel[data-v-52fcaf08] {\r\n    font-size: 1.6rem;\r\n    font-weight: bold;\n}\ninput.ck-form[data-v-52fcaf08] {\r\n    width: 100%;\r\n    height: 2.8rem;\r\n    border-radius: 4px;\r\n    border: 1px solid rgb(228, 229, 240);\r\n    outline: none;\r\n    font-size: 1.4rem;\r\n    padding: 2px;\n}\n.section[data-v-52fcaf08] {\r\n    display: flex;\r\n    width: 100%;\r\n    justify-content: space-around;\r\n    margin-top: 1rem;\n}\n.section-part input[data-v-52fcaf08] {\r\n    width: 100%;\r\n    height: 2.8rem;\r\n    border-radius: 4px;\r\n    border: 1px solid rgb(228, 229, 240);\r\n    outline: none;\r\n    font-size: 1.4rem;\r\n    padding: 2px;\n}\n.section-part[data-v-52fcaf08] {\r\n    width: 80%;\n}\n.first[data-v-52fcaf08] {margin-right: 5%;\n}\n.last[data-v-52fcaf08] {\r\n    margin-top: 6rem;\r\n    border-top: 1px dashed rgb(228, 229, 240);\r\n    padding-top: 5rem;\n}\n.manipulation[data-v-52fcaf08] {width: 100%;display: flex;justify-content: flex-end;margin-top: 3rem;\n}\n.manipulation .btn[data-v-52fcaf08] {\r\n    width: 15%;\r\n    height: 4rem;\r\n    font-size: 1.5rem;\r\n    display: flex;\r\n    align-items: center;\r\n    justify-content: center;\r\n    border-radius: 4px;\n}\n.btn.btn-next[data-v-52fcaf08] {\r\n    background: #1435C3;\r\n    color: white;\n}\n.btn.btn-out[data-v-52fcaf08] {\r\n    margin-left: 2rem;\r\n    background: rgb(228, 229, 240);\n}\nselect.form-select[data-v-52fcaf08] {\r\n    width: 100%;\r\n    height: 2.8rem;\r\n    font-size: 1.3rem;\r\n    border-radius: 4px;\r\n    border: 1px solid rgb(228, 229, 240);\n}\np[data-v-52fcaf08] {\r\n    font-size: 1.4rem;\r\n    color: red;\r\n    margin-top: 1rem;\n}", ""]);
 
 // exports
 
@@ -57279,264 +57331,444 @@ var render = function() {
     [
       _vm.type == "checkout"
         ? _c("div", { staticClass: "checkout" }, [
-            _vm._m(0),
-            _vm._v(" "),
-            _c("div", { staticClass: "chkout-part last" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "section" }, [
-                _c("div", { staticClass: "section-part first" }, [
-                  _c("label", { attrs: { for: "" } }, [
-                    _vm._v("Tỉnh/Thành phố")
+            _c(
+              "form",
+              {
+                on: {
+                  submit: function($event) {
+                    $event.preventDefault()
+                    return _vm.fetchData()
+                  }
+                }
+              },
+              [
+                _c("div", { staticClass: "chkout-part" }, [
+                  _vm._m(0),
+                  _vm._v(" "),
+                  _c("label", { attrs: { for: "" } }, [_vm._v("Họ tên")]),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.dataRequest.name,
+                        expression: "dataRequest.name"
+                      }
+                    ],
+                    staticClass: "ck-form",
+                    attrs: { type: "text", name: "name" },
+                    domProps: { value: _vm.dataRequest.name },
+                    on: {
+                      input: function($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.$set(_vm.dataRequest, "name", $event.target.value)
+                      }
+                    }
+                  }),
+                  _vm._v(" "),
+                  _vm.errors.name
+                    ? _c("p", [_vm._v(_vm._s(_vm.errors.name[0]))])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "section" }, [
+                    _c("div", { staticClass: "section-part first" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Số điện thoại")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataRequest.phone,
+                            expression: "dataRequest.phone"
+                          }
+                        ],
+                        staticClass: "ck-form-sm",
+                        attrs: { type: "text", name: "phone" },
+                        domProps: { value: _vm.dataRequest.phone },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataRequest,
+                              "phone",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.phone
+                        ? _c("p", [_vm._v(_vm._s(_vm.errors.phone[0]))])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "section-part" }, [
+                      _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataRequest.email,
+                            expression: "dataRequest.email"
+                          }
+                        ],
+                        staticClass: "ck-form-sm",
+                        attrs: { type: "email", name: "email" },
+                        domProps: { value: _vm.dataRequest.email },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataRequest,
+                              "email",
+                              $event.target.value
+                            )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.email
+                        ? _c("p", [_vm._v(_vm._s(_vm.errors.email[0]))])
+                        : _vm._e()
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "chkout-part last" }, [
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "section" }, [
+                    _c("div", { staticClass: "section-part first" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Tỉnh/Thành phố")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.dataRes.province,
+                              expression: "dataRes.province"
+                            }
+                          ],
+                          staticClass: "form-select",
+                          attrs: { name: "province" },
+                          on: {
+                            click: function($event) {
+                              return _vm.getApiAddress(
+                                "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
+                                "province"
+                              )
+                            },
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.dataRes,
+                                "province",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm.dataApi.province == null
+                            ? _c("option", { attrs: { selected: "" } }, [
+                                _vm._v("Chọn tỉnh/thành phố")
+                              ])
+                            : _vm._l(_vm.dataApi.province, function(
+                                item,
+                                index
+                              ) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index,
+                                    domProps: { value: item.ProvinceID }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(item.ProvinceName) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                )
+                              })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.province
+                        ? _c("p", [_vm._v(_vm._s(_vm.errors.province[0]))])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "section-part" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Quận/Huyện")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.dataRes.district,
+                              expression: "dataRes.district"
+                            }
+                          ],
+                          staticClass: "form-select",
+                          attrs: {
+                            name: "district",
+                            disabled: _vm.districtStatus
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.getApiAddress(
+                                "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" +
+                                  _vm.dataRes.province,
+                                "district"
+                              )
+                            },
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.dataRes,
+                                "district",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
+                        },
+                        [
+                          _vm.dataApi.district == null
+                            ? _c("option", { attrs: { selected: "" } }, [
+                                _vm._v("Chọn quận/huyện")
+                              ])
+                            : _vm._l(_vm.dataApi.district, function(
+                                item,
+                                index
+                              ) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index + "district",
+                                    domProps: { value: item.DistrictID }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(item.DistrictName) +
+                                        "\n                            "
+                                    )
+                                  ]
+                                )
+                              })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.district
+                        ? _c("p", [_vm._v(_vm._s(_vm.errors.district[0]))])
+                        : _vm._e()
+                    ])
                   ]),
                   _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
+                  _c("div", { staticClass: "section" }, [
+                    _c("div", { staticClass: "section-part first" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Phường/Xã")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c(
+                        "select",
                         {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.dataRes.province,
-                          expression: "dataRes.province"
-                        }
-                      ],
-                      staticClass: "form-select",
-                      attrs: { name: "province" },
-                      on: {
-                        click: function($event) {
-                          return _vm.getApiAddress(
-                            "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/province",
-                            "province"
-                          )
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.dataRes.ward,
+                              expression: "dataRes.ward"
+                            }
+                          ],
+                          staticClass: "form-select",
+                          attrs: { name: "ward", disabled: _vm.wardStatus },
+                          on: {
+                            click: function($event) {
+                              return _vm.getApiAddress(
+                                "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" +
+                                  _vm.dataRes.district,
+                                "ward"
+                              )
+                            },
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.$set(
+                                _vm.dataRes,
+                                "ward",
+                                $event.target.multiple
+                                  ? $$selectedVal
+                                  : $$selectedVal[0]
+                              )
+                            }
+                          }
                         },
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.dataRes,
-                            "province",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _vm.dataApi.province == null
-                        ? _c("option", { attrs: { selected: "" } }, [
-                            _vm._v("Chọn tỉnh/thành phố")
-                          ])
-                        : _vm._l(_vm.dataApi.province, function(item, index) {
-                            return _c(
-                              "option",
-                              {
-                                key: index,
-                                domProps: { value: item.ProvinceID }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(item.ProvinceName) +
-                                    "\n                        "
+                        [
+                          _vm.dataApi.ward == null
+                            ? _c("option", { attrs: { selected: "" } }, [
+                                _vm._v("Chọn phường/xã")
+                              ])
+                            : _vm._l(_vm.dataApi.ward, function(item, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index + "ward",
+                                    domProps: { value: item.WardCode }
+                                  },
+                                  [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(item.WardName) +
+                                        "\n                            "
+                                    )
+                                  ]
                                 )
-                              ]
+                              })
+                        ],
+                        2
+                      ),
+                      _vm._v(" "),
+                      _vm.errors.ward
+                        ? _c("p", [_vm._v(_vm._s(_vm.errors.ward[0]))])
+                        : _vm._e()
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "section-part" }, [
+                      _c("label", { attrs: { for: "" } }, [
+                        _vm._v("Địa chỉ cụ thể")
+                      ]),
+                      _vm._v(" "),
+                      _c("br"),
+                      _vm._v(" "),
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.dataRequest.address,
+                            expression: "dataRequest.address"
+                          }
+                        ],
+                        staticClass: "ck-form-sm",
+                        attrs: { type: "text", name: "" },
+                        domProps: { value: _vm.dataRequest.address },
+                        on: {
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.$set(
+                              _vm.dataRequest,
+                              "address",
+                              $event.target.value
                             )
-                          })
-                    ],
-                    2
-                  )
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.errors.address
+                        ? _c("p", [_vm._v(_vm._s(_vm.errors.address[0]))])
+                        : _vm._e()
+                    ])
+                  ])
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "section-part" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Quận/Huyện")]),
-                  _vm._v(" "),
-                  _c("br"),
+                _c("div", { staticClass: "manipulation" }, [
+                  _c("input", {
+                    staticClass: "btn btn-next",
+                    attrs: { type: "submit", value: "Tiep tuc" }
+                  }),
                   _vm._v(" "),
                   _c(
-                    "select",
+                    "div",
                     {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.dataRes.district,
-                          expression: "dataRes.district"
-                        }
-                      ],
-                      staticClass: "form-select",
-                      attrs: { name: "district", disabled: _vm.districtStatus },
+                      staticClass: "btn btn-out",
                       on: {
                         click: function($event) {
-                          return _vm.getApiAddress(
-                            "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/district?province_id=" +
-                              _vm.dataRes.province,
-                            "district"
-                          )
-                        },
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.dataRes,
-                            "district",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
+                          return _vm.turnback()
                         }
                       }
                     },
-                    [
-                      _vm.dataApi.district == null
-                        ? _c("option", { attrs: { selected: "" } }, [
-                            _vm._v("Chọn quận/huyện")
-                          ])
-                        : _vm._l(_vm.dataApi.district, function(item, index) {
-                            return _c(
-                              "option",
-                              {
-                                key: index + "district",
-                                domProps: { value: item.DistrictID }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(item.DistrictName) +
-                                    "\n                        "
-                                )
-                              ]
-                            )
-                          })
-                    ],
-                    2
+                    [_vm._v("Hủy bỏ")]
                   )
                 ])
-              ]),
-              _vm._v(" "),
-              _c("div", { staticClass: "section" }, [
-                _c("div", { staticClass: "section-part first" }, [
-                  _c("label", { attrs: { for: "" } }, [_vm._v("Phường/Xã")]),
-                  _vm._v(" "),
-                  _c("br"),
-                  _vm._v(" "),
-                  _c(
-                    "select",
-                    {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.dataRes.ward,
-                          expression: "dataRes.ward"
-                        }
-                      ],
-                      staticClass: "form-select",
-                      attrs: { name: "ward", disabled: _vm.wardStatus },
-                      on: {
-                        click: function($event) {
-                          return _vm.getApiAddress(
-                            "https://dev-online-gateway.ghn.vn/shiip/public-api/master-data/ward?district_id=" +
-                              _vm.dataRes.district,
-                            "ward"
-                          )
-                        },
-                        change: function($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function(o) {
-                              return o.selected
-                            })
-                            .map(function(o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.$set(
-                            _vm.dataRes,
-                            "ward",
-                            $event.target.multiple
-                              ? $$selectedVal
-                              : $$selectedVal[0]
-                          )
-                        }
-                      }
-                    },
-                    [
-                      _vm.dataApi.ward == null
-                        ? _c("option", { attrs: { selected: "" } }, [
-                            _vm._v("Chọn phường/xã")
-                          ])
-                        : _vm._l(_vm.dataApi.ward, function(item, index) {
-                            return _c(
-                              "option",
-                              {
-                                key: index + "ward",
-                                domProps: { value: item.WardID }
-                              },
-                              [
-                                _vm._v(
-                                  "\n                            " +
-                                    _vm._s(item.WardName) +
-                                    "\n                        "
-                                )
-                              ]
-                            )
-                          })
-                    ],
-                    2
-                  )
-                ]),
-                _vm._v(" "),
-                _vm._m(2)
-              ])
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "manipulation" }, [
-              _c(
-                "div",
-                {
-                  staticClass: "btn btn-next",
-                  on: {
-                    click: function($event) {
-                      return _vm.next()
-                    }
-                  }
-                },
-                [_vm._v("Tiếp tục")]
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                {
-                  staticClass: "btn btn-out",
-                  on: {
-                    click: function($event) {
-                      return _vm.turnback()
-                    }
-                  }
-                },
-                [_vm._v("Hủy bỏ")]
-              )
-            ])
+              ]
+            )
           ])
         : _vm._e(),
       _vm._v(" "),
       _vm.type == "payment"
-        ? _c("payment", { attrs: { data: _vm.cart } })
+        ? _c("payment", {
+            attrs: { cart: _vm.cart, data: _vm.dataPass },
+            on: {
+              back: function($event) {
+                return _vm.BackToCheckout($event)
+              }
+            }
+          })
         : _vm._e()
     ],
     1
@@ -57547,62 +57779,13 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chkout-part" }, [
-      _c("h1", [_c("strong", [_vm._v("Thông tin người nhận hàng")])]),
-      _vm._v(" "),
-      _c("label", { attrs: { for: "" } }, [_vm._v("Họ tên")]),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "ck-form",
-        attrs: { type: "text", name: "fullname", id: "" }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "section" }, [
-        _c("div", { staticClass: "section-part first" }, [
-          _c("label", { attrs: { for: "" } }, [_vm._v("Số điện thoại")]),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "ck-form-sm",
-            attrs: { type: "text", name: "", id: "" }
-          })
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "section-part" }, [
-          _c("label", { attrs: { for: "" } }, [_vm._v("Email")]),
-          _vm._v(" "),
-          _c("br"),
-          _vm._v(" "),
-          _c("input", {
-            staticClass: "ck-form-sm",
-            attrs: { type: "email", name: "", id: "" }
-          })
-        ])
-      ])
-    ])
+    return _c("h1", [_c("strong", [_vm._v("Thông tin người nhận hàng")])])
   },
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("h1", [_c("strong", [_vm._v("Địa chỉ nhận hàng")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "section-part" }, [
-      _c("label", { attrs: { for: "" } }, [_vm._v("Địa chỉ cụ thể")]),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("input", {
-        staticClass: "ck-form-sm",
-        attrs: { type: "email", name: "", id: "" }
-      })
-    ])
   }
 ]
 render._withStripped = true
@@ -58685,7 +58868,68 @@ var render = function() {
       _vm._m(1)
     ]),
     _vm._v(" "),
-    _vm._m(2)
+    _c("div", { staticClass: "pm-right" }, [
+      _c("div", { staticClass: "address-ship" }, [
+        _c("div", { staticClass: "add-header" }, [
+          _c("span", [_vm._v("Địa chỉ giao hàng")]),
+          _vm._v(" "),
+          _c(
+            "button",
+            {
+              on: {
+                click: function($event) {
+                  return _vm.back()
+                }
+              }
+            },
+            [_vm._v("Sửa")]
+          )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "add-bottom" }, [
+          _c("strong", [_vm._v(_vm._s(_vm.data.name))]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(_vm._s(_vm.data.address) + "  " + _vm._s(_vm.data.ward))
+          ]),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v(_vm._s(_vm.data.district) + ", " + _vm._s(_vm.data.province))
+          ]),
+          _vm._v(" "),
+          _c("p", [_vm._v("Dien thoai: " + _vm._s(_vm.data.phone))])
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "payment-order" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _vm._m(3),
+        _vm._v(" "),
+        _vm._m(4),
+        _vm._v(" "),
+        _vm._m(5),
+        _vm._v(" "),
+        _c("div", { staticClass: "btn-payment" }, [
+          _c(
+            "div",
+            {
+              staticClass: "btn bp",
+              on: {
+                click: function($event) {
+                  return _vm.payment()
+                }
+              }
+            },
+            [_vm._v("ĐẶT HÀNG NGAY")]
+          ),
+          _vm._v(" "),
+          _c("p", [
+            _vm._v("(Xin vui lòng kiểm tra lại đơn hàng trước khi đặt mua)")
+          ])
+        ])
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -58747,58 +58991,40 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "pm-right" }, [
-      _c("div", { staticClass: "address-ship" }, [
-        _c("div", { staticClass: "add-header" }, [
-          _c("span", [_vm._v("Địa chỉ giao hàng")]),
-          _vm._v(" "),
-          _c("button", [_vm._v("Sửa")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "add-bottom" }, [
-          _c("strong", [_vm._v("Quan Quoc Minh")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("114 Phan Dang Luu")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("Huyen Gia Lam, Ha Noi")]),
-          _vm._v(" "),
-          _c("p", [_vm._v("Dien thoai: 0981098963")])
-        ])
-      ]),
+    return _c("div", { staticClass: "separate" }, [
+      _c("p", [_vm._v("Tạm tính")]),
       _vm._v(" "),
-      _c("div", { staticClass: "payment-order" }, [
-        _c("div", { staticClass: "separate" }, [
-          _c("p", [_vm._v("Tạm tính")]),
-          _vm._v(" "),
-          _c("strong", [_vm._v("11.990.000 đ")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "separate" }, [
-          _c("p", [_vm._v("Phí vận chuyển")]),
-          _vm._v(" "),
-          _c("strong", [_vm._v("0 đ")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "separate" }, [
-          _c("p", [_vm._v("Thành tiền")]),
-          _vm._v(" "),
-          _c("span", [_vm._v("11.990.000đ")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "separate" }, [
-          _c("p"),
-          _vm._v(" "),
-          _c("p", [_vm._v("(Đã bao gồm VAT)")])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "btn-payment" }, [
-          _c("div", { staticClass: "btn bp" }, [_vm._v("ĐẶT HÀNG NGAY")]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v("(Xin vui lòng kiểm tra lại đơn hàng trước khi đặt mua)")
-          ])
-        ])
-      ])
+      _c("strong", [_vm._v("11.990.000 đ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "separate" }, [
+      _c("p", [_vm._v("Phí vận chuyển")]),
+      _vm._v(" "),
+      _c("strong", [_vm._v("0 đ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "separate" }, [
+      _c("p", [_vm._v("Thành tiền")]),
+      _vm._v(" "),
+      _c("span", [_vm._v("11.990.000đ")])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "separate" }, [
+      _c("p"),
+      _vm._v(" "),
+      _c("p", [_vm._v("(Đã bao gồm VAT)")])
     ])
   }
 ]
@@ -64289,6 +64515,124 @@ if (inBrowser && window.Vue) {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (VueRouter);
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-session/index.js":
+/*!*******************************************!*\
+  !*** ./node_modules/vue-session/index.js ***!
+  \*******************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var STORAGE = null;
+var VueSession = {
+    key: 'vue-session-key',
+    flash_key: 'vue-session-flash-key',
+    setAll: function(all){
+        STORAGE.setItem(VueSession.key,JSON.stringify(all));
+    }
+}
+
+VueSession.install = function(Vue, options) {
+    if(options && 'persist' in options && options.persist) STORAGE = window.localStorage;
+    else STORAGE = window.sessionStorage;
+    Vue.prototype.$session = {
+        flash: {
+            parent: function(){
+                return Vue.prototype.$session;
+            },
+            get: function(key){
+                var all = this.parent().getAll();
+                var all_flash = all[VueSession.flash_key] || {};
+
+                var flash_value = all_flash[key];
+
+                this.remove(key);
+
+                return flash_value;
+            },
+            set: function(key, value){
+                var all = this.parent().getAll();
+                var all_flash = all[VueSession.flash_key] || {};
+
+                all_flash[key] = value;
+                all[VueSession.flash_key] = all_flash;
+
+                VueSession.setAll(all);
+            },
+            remove: function(key){
+                var all = this.parent().getAll();
+                var all_flash = all[VueSession.flash_key] || {};
+
+                delete all_flash[key];
+
+                all[VueSession.flash_key] = all_flash;
+                VueSession.setAll(all);
+            }
+        },
+        getAll: function(){
+            var all = JSON.parse(STORAGE.getItem(VueSession.key));
+            return all || {};
+        },
+        set: function(key,value){
+            if(key == 'session-id') return false;
+            var all = this.getAll();
+
+            if(!('session-id' in all)){
+                this.start();
+                all = this.getAll();
+            }
+
+            all[key] = value;
+
+            VueSession.setAll(all);
+        },
+        get: function(key){
+            var all = this.getAll();
+            return all[key];
+        },
+        start: function(){
+            var all = this.getAll();
+            all['session-id'] = 'sess:'+Date.now();
+
+            VueSession.setAll(all);
+        },
+        renew: function(sessionId){
+            var all = this.getAll();
+            all['session-id'] = 'sess:' + sessionId;
+            VueSession.setAll(all);
+        },
+        exists: function(){
+            var all = this.getAll();
+            return 'session-id' in all;
+        },
+        has: function(key){
+            var all = this.getAll();
+            return key in all;
+        },
+        remove: function(key){
+            var all = this.getAll();
+            delete all[key];
+
+            VueSession.setAll(all);
+        },
+        clear: function(){
+            var all = this.getAll();
+
+            VueSession.setAll({'session-id': all['session-id']});
+        },
+        destroy: function(){
+            VueSession.setAll({});
+        },
+        id: function(){
+            return this.get('session-id');
+        }
+    }
+};
+
+module.exports = VueSession;
 
 
 /***/ }),
@@ -78934,11 +79278,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _admin_baseurl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./../admin/baseurl */ "./resources/js/admin/baseurl.js");
-/* harmony import */ var _Product_panelcart_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Product/panelcart.vue */ "./resources/js/frontend/Product/panelcart.vue");
-/* harmony import */ var _Cart_cart_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Cart/cart.vue */ "./resources/js/frontend/Cart/cart.vue");
-/* harmony import */ var _Cart_Checkout_checkout_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Cart/Checkout/checkout.vue */ "./resources/js/frontend/Cart/Checkout/checkout.vue");
-/* harmony import */ var _Cart_Payment_payment_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Cart/Payment/payment.vue */ "./resources/js/frontend/Cart/Payment/payment.vue");
+/* harmony import */ var vue_session__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vue-session */ "./node_modules/vue-session/index.js");
+/* harmony import */ var vue_session__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vue_session__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _admin_baseurl__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../admin/baseurl */ "./resources/js/admin/baseurl.js");
+/* harmony import */ var _Product_panelcart_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Product/panelcart.vue */ "./resources/js/frontend/Product/panelcart.vue");
+/* harmony import */ var _Cart_cart_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Cart/cart.vue */ "./resources/js/frontend/Cart/cart.vue");
+/* harmony import */ var _Cart_Checkout_checkout_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Cart/Checkout/checkout.vue */ "./resources/js/frontend/Cart/Checkout/checkout.vue");
+/* harmony import */ var _Cart_Payment_payment_vue__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Cart/Payment/payment.vue */ "./resources/js/frontend/Cart/Payment/payment.vue");
 
 
 
@@ -78946,13 +79292,15 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
+vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vue_session__WEBPACK_IMPORTED_MODULE_2___default.a);
 var product = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#product',
   components: {
-    PanelCart: _Product_panelcart_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
-    Cart: _Cart_cart_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
-    Checkout: _Cart_Checkout_checkout_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
-    Payment: _Cart_Payment_payment_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
+    PanelCart: _Product_panelcart_vue__WEBPACK_IMPORTED_MODULE_4__["default"],
+    Cart: _Cart_cart_vue__WEBPACK_IMPORTED_MODULE_5__["default"],
+    Checkout: _Cart_Checkout_checkout_vue__WEBPACK_IMPORTED_MODULE_6__["default"],
+    Payment: _Cart_Payment_payment_vue__WEBPACK_IMPORTED_MODULE_7__["default"]
   },
   data: function data() {
     return {
@@ -78964,7 +79312,7 @@ var product = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
     addCart: function addCart(id) {
       var _this = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_admin_baseurl__WEBPACK_IMPORTED_MODULE_2__["default"], "/addcart/").concat(id)).then(function () {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post("".concat(_admin_baseurl__WEBPACK_IMPORTED_MODULE_3__["default"], "/addcart/").concat(id)).then(function () {
         _this.$refs.panelcart.ajaxCart(id);
       });
     },

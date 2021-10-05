@@ -71,4 +71,8 @@ class CartController extends Controller
     public function DeleteAll(Request $request) {
         $request->Session()->forget('Cart');
     }
+
+    public function CreatePayment(Request $request) {
+        return view('vnpay.index');
+    }
 }

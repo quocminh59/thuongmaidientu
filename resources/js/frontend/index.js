@@ -1,12 +1,13 @@
 import Vue from 'vue';
 import axios from 'axios';
+import VueSession from 'vue-session';
 import base from './../admin/baseurl';
 import PanelCart from './Product/panelcart.vue';
 import Cart from './Cart/cart.vue';
 import Checkout from './Cart/Checkout/checkout.vue';
 import Payment from './Cart/Payment/payment.vue';
 
-
+Vue.use(VueSession)
 
 const product = new Vue({
     el: '#product',

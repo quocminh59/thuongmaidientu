@@ -70,13 +70,13 @@
             <div class="address-ship">
                 <div class="add-header">
                     <span>Địa chỉ giao hàng</span>
-                    <button>Sửa</button>
+                    <button @click="back()">Sửa</button>
                 </div>
                 <div class="add-bottom">
-                    <strong>Quan Quoc Minh</strong>
-                    <p>114 Phan Dang Luu</p>
-                    <p>Huyen Gia Lam, Ha Noi</p>
-                    <p>Dien thoai: 0981098963</p>
+                    <strong>{{ data.name }}</strong>
+                    <p>{{ data.address}}  {{data.ward}}</p>
+                    <p>{{ data.district }}, {{ data.province }}</p>
+                    <p>Dien thoai: {{ data.phone }}</p>
                 </div>
             </div>
             <div class="payment-order">
@@ -97,7 +97,7 @@
                     <p>(Đã bao gồm VAT)</p>
                 </div>
                 <div class="btn-payment">
-                    <div class="btn bp">ĐẶT HÀNG NGAY</div>
+                    <div class="btn bp" @click="payment()">ĐẶT HÀNG NGAY</div>
                     <p>(Xin vui lòng kiểm tra lại đơn hàng trước khi đặt mua)</p>
                 </div>
             </div>
@@ -108,11 +108,11 @@
 <script>
 import base from '../../../admin/baseurl'
 export default {
-    props: ['data'],
+    props: ['cart', 'data'],
     data() {
         return {
             show: false,
-            cart: this.data,
+            cart: this.cart,
             baseURL: base
         }
     },
@@ -121,6 +121,12 @@ export default {
            value =  new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
            return value;
         },
+        payment: function() {
+            location.href = '/payment';
+        },
+        back: function() {
+            this.$emit('back', 'checkout');
+        }
     }
 }
 </script>

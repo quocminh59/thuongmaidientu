@@ -27,7 +27,7 @@ Route::namespace('User\Auth')->group(function(){
 // Route homepage
 Route::get('/', 'HomeController@index')->name('home');
 
-// // Route about product detail
+// Route about product detail
 Route::get('/product/{slug}', 'HomeController@ShowProductDetail')->name('show.productdetail');
 
 Route::group(['middleware' => 'cor'], function() {
@@ -40,10 +40,11 @@ Route::group(['middleware' => 'cor'], function() {
     Route::post('/dellall', 'CartController@DeleteAll')->name('deleteall.cart');
 });
 
-Route::get('/test', function() {
-    return view('pages.order-info');
+// Route payment
+Route::group(['prefix' => 'payment'], function() {
+    Route::post('/validate-info', 'PayController@ValidateRequest')->name('validate-info.payment');
+    Route::get('/payment', 'PayController@index')->name('index.payment');
 });
-
 
 
 // Auth::routes();

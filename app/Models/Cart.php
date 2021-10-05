@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Http\Requests\InfoCustomerRequest;
 
 class Cart extends Model
 {
@@ -96,5 +97,9 @@ class Cart extends Model
         foreach ($this->products as $item) {
             if($item['status'] == false) $this->status = false;
         }
+   }
+
+   public function GetInfoCustomer(InfoCustomerRequest $request) {
+       return $request;
    }
 }
