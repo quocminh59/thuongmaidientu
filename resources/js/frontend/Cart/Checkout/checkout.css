@@ -1,0 +1,94 @@
+h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+}
+.checkout {
+    width: 80rem;
+    border: 1px solid white;
+    margin: auto;
+    margin-top: 2rem;
+    background: white;
+    padding: 1%;
+    font-family: 'Roboto',sans-serif;
+    border-radius: 4px;
+}
+
+label {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+input.ck-form {
+    width: 100%;
+    height: 2.8rem;
+    border-radius: 4px;
+    border: 1px solid rgb(228, 229, 240);
+    outline: none;
+    font-size: 1.4rem;
+    padding: 2px;
+}
+
+.section {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+
+.section-part input {
+    width: 100%;
+    height: 2.8rem;
+    border-radius: 4px;
+    border: 1px solid rgb(228, 229, 240);
+    outline: none;
+    font-size: 1.4rem;
+    padding: 2px;
+}
+
+.section-part {
+    width: 80%;
+}
+
+.first {margin-right: 5%;}
+
+.last {
+    margin-top: 6rem;
+    border-top: 1px dashed rgb(228, 229, 240);
+    padding-top: 5rem;
+}
+
+.manipulation {width: 100%;display: flex;justify-content: flex-end;margin-top: 3rem;}
+
+.manipulation .btn {
+    width: 15%;
+    height: 4rem;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.btn.btn-next {
+    background: #1435C3;
+    color: white;
+}
+
+.btn.btn-out {
+    margin-left: 2rem;
+    background: rgb(228, 229, 240);
+}
+
+select.form-select {
+    width: 100%;
+    height: 2.8rem;
+    font-size: 1.3rem;
+    border-radius: 4px;
+    border: 1px solid rgb(228, 229, 240);
+}
+
+p {
+    font-size: 1.4rem;
+    color: red;
+    margin-top: 1rem;
+}
